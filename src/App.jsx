@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Shield, Award, RefreshCw, CheckCircle, XCircle, AlertTriangle } from 'lucide-react';
 import { questions } from './questions';
 
@@ -9,17 +9,55 @@ const CyberSafetyGame = () => {
   const [showResult, setShowResult] = useState(false);
   const [gameCompleted, setGameCompleted] = useState(false);
   const [language, setLanguage] = useState('english');
+  const [shuffledQuestions, setShuffledQuestions] = useState([]);
 
-  const currentQuestions = questions[language];
-  const totalQuestions = currentQuestions.length;
+  const shuffleArray = (array) => {
+    const shuffled = [...array];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
+  };
+
+  const shuffleOptions = (question) => {
+    const correctIndex = question.options.findIndex(opt => opt.correct);
+    const shuffledOptions = shuffleArray(question.options);
+    const newCorrectIndex = shuffledOptions.findIndex(opt => opt.correct);
+    
+    return {
+      ...question,
+      options: shuffledOptions,
+      correctIndex: newCorrectIndex
+    };
+  };
+
+  const initializeGame = () => {
+    const currentQuestions = questions[language];
+    const questionsWithShuffledOptions = currentQuestions.map(q => shuffleOptions(q));
+    const shuffledQuestionOrder = shuffleArray(questionsWithShuffledOptions);
+    setShuffledQuestions(shuffledQuestionOrder);
+    setCurrentQuestion(0);
+    setScore(0);
+    setSelectedAnswer(null);
+    setShowResult(false);
+    setGameCompleted(false);
+  };
+
+  useEffect(() => {
+    initializeGame();
+  }, [language]);
+
+  const totalQuestions = shuffledQuestions.length;
+  const currentQuestionData = shuffledQuestions[currentQuestion];
 
   const handleAnswerSelect = (answerIndex) => {
-    if (showResult) return;
+    if (showResult || !currentQuestionData) return;
     
     setSelectedAnswer(answerIndex);
     setShowResult(true);
     
-    if (currentQuestions[currentQuestion].options[answerIndex].correct) {
+    if (currentQuestionData.options[answerIndex].correct) {
       setScore(score + 1);
     }
   };
@@ -35,20 +73,39 @@ const CyberSafetyGame = () => {
   };
 
   const restartGame = () => {
-    setCurrentQuestion(0);
-    setScore(0);
-    setSelectedAnswer(null);
-    setShowResult(false);
-    setGameCompleted(false);
+    initializeGame();
+  };
+
+  const handleLanguageChange = (newLanguage) => {
+    setLanguage(newLanguage);
   };
 
   const getScoreMessage = () => {
     const percentage = (score / totalQuestions) * 100;
-    if (percentage >= 80) return "Excellent! You're a cyber safety champion! 🏆";
-    if (percentage >= 60) return "Good job! Keep learning to stay even safer online! 👍";
-    if (percentage >= 40) return "You're learning! Practice more to improve your online safety! 📚";
-    return "Keep practicing! Online safety is very important! 💪";
+
+    if (language === 'english') {
+      if (percentage >= 80) return "Excellent! You're a cyber safety champion!";
+      if (percentage >= 60) return "Good job! Keep learning to stay even safer online!";
+      if (percentage >= 40) return "You're learning! Practice more to improve your online safety!";
+      return "Keep practicing! Online safety is very important!";
+    } else {
+      if (percentage >= 80) return "Umefanya vyema! Wewe ni bingwa wa usalama mtandaoni!";
+      if (percentage >= 60) return "Kazi nzuri! Endelea kujifunza ili uwe salama zaidi mtandaoni!";
+      if (percentage >= 40) return "Unajifunza! Endelea kufanya mazoezi ili kuboresha usalama wako mtandaoni!";
+      return "Endelea kufanya mazoezi! Usalama mtandaoni ni muhimu sana!";
+    }
   };
+
+  if (shuffledQuestions.length === 0) {
+    return (
+      <div className="max-w-2xl mx-auto p-6 bg-gradient-to-br from-blue-50 to-purple-50 min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <Shield className="w-8 h-8 text-blue-600 mx-auto animate-spin" />
+          <p className="mt-2 text-gray-600">Loading...</p>
+        </div>
+      </div>
+    );
+  }
 
   if (gameCompleted) {
     return (
@@ -97,7 +154,7 @@ const CyberSafetyGame = () => {
           {/* Language Toggle */}
           <div className="flex bg-gray-100 rounded-lg p-1">
             <button
-              onClick={() => setLanguage('english')}
+              onClick={() => handleLanguageChange('english')}
               className={`px-3 py-1 rounded text-sm font-medium transition-colors ${
                 language === 'english' ? 'bg-blue-600 text-white' : 'text-gray-600'
               }`}
@@ -105,7 +162,7 @@ const CyberSafetyGame = () => {
               English
             </button>
             <button
-              onClick={() => setLanguage('swahili')}
+              onClick={() => handleLanguageChange('swahili')}
               className={`px-3 py-1 rounded text-sm font-medium transition-colors ${
                 language === 'swahili' ? 'bg-blue-600 text-white' : 'text-gray-600'
               }`}
@@ -143,16 +200,16 @@ const CyberSafetyGame = () => {
             </span>
           </div>
           <p className="text-gray-800 mb-4 leading-relaxed">
-            {currentQuestions[currentQuestion].scenario}
+            {currentQuestionData.scenario}
           </p>
           <h3 className="text-lg font-semibold text-gray-800">
-            {currentQuestions[currentQuestion].question}
+            {currentQuestionData.question}
           </h3>
         </div>
 
         {/* Options */}
         <div className="space-y-3">
-          {currentQuestions[currentQuestion].options.map((option, index) => {
+          {currentQuestionData.options.map((option, index) => {
             let buttonClass = "w-full text-left p-4 rounded-lg border-2 transition-all duration-200 ";
             
             if (showResult) {
@@ -169,7 +226,7 @@ const CyberSafetyGame = () => {
 
             return (
               <button
-                key={index}
+                key={`${currentQuestion}-${index}`}
                 onClick={() => handleAnswerSelect(index)}
                 className={buttonClass}
                 disabled={showResult}
@@ -191,14 +248,13 @@ const CyberSafetyGame = () => {
           })}
         </div>
 
-        {/* Explanation */}
-        {showResult && (
+        {showResult && selectedAnswer !== null && (
           <div className="mt-6 p-4 bg-blue-50 rounded-lg">
             <h4 className="font-semibold text-blue-800 mb-2">
               {language === 'english' ? 'Explanation:' : 'Maelezo:'}
             </h4>
             <p className="text-blue-700">
-              {currentQuestions[currentQuestion].options[selectedAnswer].explanation}
+              {currentQuestionData.options[selectedAnswer].explanation}
             </p>
             
             <button
@@ -214,7 +270,6 @@ const CyberSafetyGame = () => {
         )}
       </div>
 
-      {/* Footer */}
       <div className="text-center mt-6 text-gray-600 text-sm">
         <p>{language === 'english' ? 'Created by' : 'Imeundwa na'} Arfi • {language === 'english' ? 'Garissa, Kenya' : 'Garissa, Kenya'}</p>
         <p className="mt-1">{language === 'english' ? 'Stay Safe Online! 🔐' : 'Kaa Salama Mtandaoni! 🔐'}</p>

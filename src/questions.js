@@ -67,6 +67,50 @@ export const questions = {
                 { text: "Peleka kwa marafiki ili nao washinde", correct: false, explanation: "Hapana! Hii inasambaza udanganyifu kwa watu zaidi." },
                 { text: "Piga simu kumhakikishia", correct: false, explanation: "Usiungane na wadanganyifu. Maongezi rasmi hutoka kwa njia zilizothibitishwa." }
             ]
+        },
+        {
+            id: 2,
+            scenario: "Mtu usiyemfahamu kwenye WhatsApp anadai kuwa mtoa ajira akiahidi kazi nzuri jijini Nairobi. Anakutaka utoe nambari ya kitambulisho na maelezo ya benki mara moja.",
+            question: "Jibu sahihi ni lipi?",
+            options: [
+                { text: "Tuma maelezo yote mara moja", correct: false, explanation: "Usiwahi kushiriki taarifa binafsi na watu usiowajua mtandaoni!" },
+                { text: "Omba mkutane ana kwa ana kwanza ofisini kwao", correct: true, explanation: "Vizuri! Waajiri halali wana ofisi na hukutana na wagombea rasmi." },
+                { text: "Tuma nambari ya kitambulisho pekee kwa sasa", correct: false, explanation: "Hata kushiriki nambari ya kitambulisho na watu wasiojulikana ni hatari." },
+                { text: "Mwambie atume pesa kwanza kama uthibitisho", correct: false, explanation: "Hivyo si jinsi mahojiano halisi ya kazi yanavyofanywa." }
+            ]
+        },
+        {
+            id: 3,
+            scenario: "Unataka kuunda nenosiri la akaunti yako ya barua pepe ambayo utatumia kuomba chuo kikuu.",
+            question: "Nenosiri lipi ni imara zaidi?",
+            options: [
+                { text: "password123", correct: false, explanation: "Rahisi mno! Wadukuzi wanaweza kulipatia kwa urahisi." },
+                { text: "Garissa2024!", correct: true, explanation: "Vizuri! Lina herufi, nambari, na alama. Mchanganyiko salama." },
+                { text: "12345678", correct: false, explanation: "Hili ni moja ya manenosiri mabaya zaidi!" },
+                { text: "jinalangu", correct: false, explanation: "Taarifa binafsi hufanya nenosiri liwe dhaifu." }
+            ]
+        },
+        {
+            id: 4,
+            scenario: "Unatumia Wi-Fi ya umma katika kahawa mjini kuangalia akaunti yako ya benki mtandaoni.",
+            question: "Njia salama zaidi ni ipi?",
+            options: [
+                { text: "Endelea - ni intaneti ya bure!", correct: false, explanation: "Wi-Fi ya umma si salama kwa shughuli nyeti kama benki." },
+                { text: "Subiri utumie data ya simu yako badala yake", correct: true, explanation: "Sawa kabisa! Data ya simu ni salama zaidi kwa benki kuliko Wi-Fi ya umma." },
+                { text: "Itumie lakini uondoke haraka", correct: false, explanation: "Uharibifu unaweza kutokea mara moja kwenye mtandao usio salama." },
+                { text: "Muulize mmiliki wa kahawa kama ni salama", correct: false, explanation: "Hata mmiliki wa kahawa hawezi kuthibitisha usalama wa mtandao." }
+            ]
+        },
+        {
+            id: 5,
+            scenario: "Mtu usiyemfahamu vizuri anakualika mkutane peke yenu baada ya kuzungumza mtandaoni kwa wiki moja.",
+            question: "Chaguo salama zaidi ni lipi?",
+            options: [
+                { text: "Kutana naye mahali pa faragha", correct: false, explanation: "Usiwahi kukutana na watu wa mtandaoni peke yako sehemu za faragha!" },
+                { text: "Nenda na rafiki unayemwamini sehemu ya umma", correct: true, explanation: "Bora! Kila mara kutana na watu wa mtandaoni hadharani ukiwa na mtu unayemwamini." },
+                { text: "Kutana naye bila kumwambia yeyote", correct: false, explanation: "Kila mara mwambie mtu unakoenda!" },
+                { text: "Pige simu ya video kwanza, kisha mkutane peke yenu", correct: false, explanation: "Simu ya video husaidia kuthibitisha utambulisho, lakini bado kutana sehemu za umma ukiwa na mtu wa kuaminika." }
+            ]
         }
     ]
 };
