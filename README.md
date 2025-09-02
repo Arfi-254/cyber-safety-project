@@ -1,12 +1,14 @@
-# React + Vite
+ About the Project
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project is about promoting cyber safety by teaching people how to stay safe online. It focuses on issues like password security, phishing awareness, safe browsing, and digital well-being.
 
-Currently, two official plugins are available:
+ Problem It Solves
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Many people, especially students and young people, don’t know how to protect themselves online. This project helps by spreading awareness, providing tips, and creating tools/resources that make the internet safer.
 
-## Expanding the ESLint configuration
+ Built By
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+This project was created by Arfi mohamud abdi as part of Hackathon.
+
+
+
